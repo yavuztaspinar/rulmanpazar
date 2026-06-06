@@ -3,214 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RulmanPazar | Akıllı Tedarik Platformu</title>
+    <title>RulmanPazar | Güvenilir Rulman Tedarik Platformu</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .animate-spin-slow { animation: spin 10s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    </style>
 </head>
-<body class="bg-gray-50 font-sans">
+<body class="bg-gray-50 font-sans min-h-screen flex flex-col justify-between" onkeydown="handleShortcut(event)">
 
-    <nav class="bg-blue-900 text-white shadow-lg p-4">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold tracking-wider flex items-center gap-2">
-                <i class="fa-solid fa-gear animate-spin-slow"></i> RULMANPAZAR
-            </h1>
-            <div class="flex gap-4">
-                <button onclick="toggleView('user')" class="bg-blue-700 hover:bg-blue-600 px-4 py-2 rounded-lg font-semibold transition">
-                    <i class="fa-solid fa-search"></i> Müşteri Ekranı
-                </button>
-                <button onclick="toggleView('admin')" class="bg-amber-600 hover:bg-amber-500 px-4 py-2 rounded-lg font-semibold transition">
-                    <i class="fa-solid fa-lock"></i> Stok Yönetim (B4B)
-                </button>
+    <nav class="bg-slate-900 text-white shadow-xl sticky top-0 z-50 px-4 py-3">
+        <div class="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            
+            <div class="flex items-center gap-3 cursor-pointer" onclick="showPage('customer')">
+    <img src="https://ibb.co/wFq8VrvY" alt="RulmanPazar Logo" class="h-12 w-auto object-contain rounded-lg">
+    <div>
+        <span class="text-2xl font-black tracking-tight text-white">RULMAN<span class="text-amber-500">PAZAR</span></span>
+        <p class="text-xs text-gray-400 tracking-widest font-semibold uppercase">B4B Entegre Sistemi</p>
+    </div>
+</div>
+
+            <div class="flex items-center gap-3">
+                <a href="tel:05320000000" class="bg-emerald-600 hover:bg-emerald-500 text-white px-5 py-2.5 rounded-xl font-bold transition-all shadow-md flex items-center gap-2 text-sm">
+                    <i class="fa-solid fa-phone animate-bounce"></i> 
+                    <span>Bizi Arayın: 0532 000 00 00</span>
+                </a>
             </div>
+
         </div>
     </nav>
 
-    <div id="user-view" class="container mx-auto p-6">
-        <div class="text-center my-8">
-            <h2 class="text-3xl font-extrabold text-gray-800">Aradığınız Rulmanı Anında Bulun</h2>
-            <p class="text-gray-500 mt-2">Entegre B4B stoklarında anlık parça numarası ve fiyat sorgulama</p>
-            
-            <div class="max-w-xl mx-auto mt-6 relative">
-                <input type="text" id="search-input" oninput="filterProducts()" placeholder="Örn: 6204-2RSH, NU 314..." class="w-full p-4 pl-12 rounded-xl border border-gray-300 shadow-sm focus:ring-2 focus:ring-blue-500 focus:outline-none text-lg">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-gray-400 text-lg"></i>
+    <main class="flex-grow">
+        
+        <div id="page-customer" class="container mx-auto p-4 md:p-6">
+            <div class="bg-white p-6 md:p-8 rounded-3xl shadow-sm border border-gray-100 text-center max-w-3xl mx-auto my-6">
+                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800">Doğru Rulmanı Saniyeler İçinde Bulun</h2>
+                <p class="text-gray-500 text-sm mt-2">Sistemdeki tüm güncel marka ve distribütör stoklarında anlık arama yapın.</p>
+                
+                <div class="relative mt-6 max-w-xl mx-auto">
+                    <input type="text" id="search-box" oninput="displayProducts()" placeholder="Rulman kodu veya marka yazın... (Örn: 6204, SKF)" class="w-full p-4 pl-12 rounded-2xl border border-gray-200 shadow-sm focus:ring-2 focus:ring-amber-500 focus:outline-none text-base md:text-lg font-medium">
+                    <i class="fa-solid fa-magnifying-glass absolute left-4 top-5 text-gray-400 text-lg"></i>
+                </div>
+            </div>
+
+            <div id="customer-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+                </div>
+        </div>
+
+        <div id="page-admin" class="container mx-auto p-4 md:p-6 hidden">
+            <div class="max-w-3xl mx-auto bg-white p-6 rounded-2xl shadow-md border border-gray-200">
+                <div class="flex justify-between items-center border-b pb-4 mb-4">
+                    <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                        <i class="fa-solid fa-code text-amber-500"></i> Gizli Toplu Stok Yükleme Paneli
+                    </h3>
+                    <button onclick="showPage('customer')" class="text-xs font-bold text-gray-500 hover:text-gray-800">Kapat</button>
+                </div>
+                
+                <p class="text-xs text-gray-500 mb-3">Diğer firmalardan aldığın rulman listesini JSON formatında aşağıdaki kutuya yapıştırıp kaydetmen yeterlidir.</p>
+                
+                <textarea id="bulk-json-input" rows="15" class="w-full p-3 font-mono text-xs border border-gray-200 rounded-xl bg-slate-50 focus:outline-none focus:ring-2 focus:ring-amber-500"></textarea>
+                
+                <div class="mt-4 flex justify-between items-center">
+                    <span class="text-xs text-gray-400" id="total-count-label"></span>
+                    <button onclick="saveBulkData()" class="bg-amber-500 hover:bg-amber-600 text-slate-900 font-bold px-6 py-2.5 rounded-xl transition shadow-md text-sm">
+                        <i class="fa-solid fa-floppy-disk"></i> Değişiklikleri Kaydet ve Yayınla
+                    </button>
+                </div>
             </div>
         </div>
 
-        <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            </div>
-    </div>
+    </main>
 
-    <div id="admin-view" class="container mx-auto p-6 hidden">
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200">
-            <h3 class="text-xl font-bold text-gray-800 border-b pb-3 mb-4">
-                <i class="fa-solid fa-plus text-amber-600"></i> Yeni Stok / B4B Verisi Ekle
-            </h3>
-            
-            <form id="product-form" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <input type="text" id="form-code" placeholder="Rulman Kodu (Örn: 6305-ZZ)" required class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <input type="text" id="form-brand" placeholder="Marka (Örn: SKF, ORS, FAG)" required class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <input type="number" id="form-stock" placeholder="Stok Adeti" required class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <input type="number" id="form-price" placeholder="Satış Fiyatı (TL)" required class="p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <input type="text" id="form-source" placeholder="Kaynak (Örn: Saygılı Rulman B4B)" required class="p-3 border rounded-lg md:col-span-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
-                <button type="submit" class="bg-emerald-600 hover:bg-emerald-500 text-white font-bold p-3 rounded-lg md:col-span-2 transition">
-                    <i class="fa-solid fa-floppy-disk"></i> Stoğa Ekle / Güncelle
-                </button>
-            </form>
-        </div>
-
-        <div class="bg-white p-6 rounded-xl shadow-md border border-gray-200 mt-8 overflow-x-auto">
-            <h3 class="text-xl font-bold text-gray-800 mb-4">Sistemdeki Aktif Stoklar</h3>
-            <table class="w-full text-left border-collapse">
-                <thead>
-                    <tr class="bg-gray-100 border-b border-gray-200 text-gray-600 font-semibold">
-                        <th class="p-3">Rulman Kodu</th>
-                        <th class="p-3">Marka</th>
-                        <th class="p-3">Stok</th>
-                        <th class="p-3">Fiyat</th>
-                        <th class="p-3">Entegre B4B Kaynağı</th>
-                        <th class="p-3 text-center">İşlem</th>
-                    </tr>
-                </thead>
-                <tbody id="admin-table-body">
-                    </tbody>
-            </table>
-        </div>
-    </div>
+    <footer class="bg-slate-900 text-gray-400 text-center py-4 text-xs border-t border-slate-800 mt-12">
+        <p>&copy; 2026 RulmanPazar. Tüm Hakları Saklıdır. | Akıllı B4B Altyapısı</p>
+    </footer>
 
     <script>
-        // Örnek Başlangıç Stokları (Tarayıcı hafızasında saklanacak)
-        let defaultStocks = [
-            { code: "6204-2RSH", brand: "SKF", stock: 120, price: 145, source: "A Distribütörü API" },
-            { code: "6305-ZZ", brand: "ORS", stock: 45, price: 98, source: "B Firması XML" },
-            { code: "NU 204 ECP", brand: "FAG", stock: 12, price: 420, source: "C Firması Web Scraping" }
+        // GİZLİ PANEL ŞİFRE KISAYOLU:
+        // Sitede boş bir yere tıklayıp klavyeden "pazar" yazarsan gizli panel açılır.
+        let inputSequence = "";
+        function handleShortcut(e) {
+            inputSequence += e.key.toLowerCase();
+            if (inputSequence.endsWith("pazar")) {
+                inputSequence = "";
+                showPage('admin');
+            }
+            if (inputSequence.length > 20) inputSequence = ""; // Hafızayı temizle
+        }
+
+        // İlk Kurulumda Hazır Gelecek Örnek Stok Verilerin (İstediğin gibi değiştirebilirsin)
+        const defaultDatabase = [
+            { "code": "6204-2RSH", "brand": "SKF", "stock": 140, "price": 165.00, "source": "Ana Distribütör API" },
+            { "code": "6305-ZZ", "brand": "ORS", "stock": 85, "price": 95.50, "source": "B Bölge Bayi XML" },
+            { "code": "NU 314 ECP", "brand": "FAG", "stock": 8, "price": 890.00, "source": "Almanya Merkez" }
         ];
 
-        // Eğer tarayıcıda kayıtlı veri yoksa varsayılanları yükle
-        if (!localStorage.getItem("rulman_stoklari")) {
-            localStorage.setItem("rulman_stoklari", JSON.stringify(defaultStocks));
+        // Tarayıcı hafızasını başlat
+        if (!localStorage.getItem("rulman_pazar_database")) {
+            localStorage.setItem("rulman_pazar_database", JSON.stringify(defaultDatabase));
         }
 
-        // Veriyi çek
-        function getProducts() {
-            return JSON.parse(localStorage.getItem("rulman_stoklari"));
+        function loadDatabase() {
+            return JSON.parse(localStorage.getItem("rulman_pazar_database"));
         }
 
-        // Ekranlar arası geçiş (Müşteri / Yönetim)
-        function toggleView(view) {
-            if (view === 'user') {
-                document.getElementById('user-view').classList.remove('hidden');
-                document.getElementById('admin-view').addClass('hidden');
+        // Sayfa Değiştirme
+        function showPage(pageName) {
+            if (pageName === 'customer') {
+                document.getElementById('page-customer').classList.remove('hidden');
+                document.getElementById('page-admin').classList.add('hidden');
+                displayProducts();
             } else {
-                document.getElementById('user-view').addClass('hidden');
-                document.getElementById('admin-view').classList.remove('hidden');
-                renderAdminTable();
+                document.getElementById('page-customer').classList.add('hidden');
+                document.getElementById('page-admin').classList.remove('hidden');
+                
+                // Gizli panele mevcut verileri düzgün formatta doldur
+                const currentData = loadDatabase();
+                document.getElementById('bulk-json-input').value = JSON.stringify(currentData, null, 4);
+                document.getElementById('total-count-label').innerText = "Şu an yüklü olan ürün: " + currentData.length + " adet";
             }
         }
 
-        // Yardımcı fonksiyon class eklemek için (Tailwind uyumu için)
-        Element.prototype.addClass = function(className) { this.classList.add(className); };
-
-        // Müşteri ekranında listeleme ve filtreleme
-        function filterProducts() {
-            const query = document.getElementById('search-input').value.toUpperCase();
-            const products = getProducts();
-            const container = document.getElementById('product-list');
+        // Vitrinde Ürünleri Listele ve Filtrele
+        function displayProducts() {
+            const query = document.getElementById('search-box').value.toUpperCase();
+            const data = loadDatabase();
+            const container = document.getElementById('customer-grid');
             container.innerHTML = "";
 
-            const filtered = products.filter(p => p.code.toUpperCase().includes(query) || p.brand.toUpperCase().includes(query));
+            const filtered = data.filter(item => 
+                item.code.toUpperCase().includes(query) || 
+                item.brand.toUpperCase().includes(query)
+            );
 
-            if(filtered.length === 0) {
-                container.innerHTML = `<div class="col-span-full text-center text-gray-400 my-8"><i class="fa-solid fa-box-open text-4xl mb-2"></i><br>Aradığınız kriterde rulman bulunamadı.</div>`;
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-12 bg-white rounded-2xl border border-dashed border-gray-200 text-gray-400">
+                        <i class="fa-solid fa-cubes text-5xl mb-3 text-gray-300"></i>
+                        <p class="text-base font-semibold">Aradığınız kriterlere uygun rulman stoğu bulunamadı.</p>
+                    </div>`;
                 return;
             }
 
-            filtered.forEach(p => {
+            filtered.forEach(item => {
+                // Buradaki telefon numarasını (905320000000) kendi WhatsApp numaranla değiştir
                 container.innerHTML += `
-                    <div class="bg-white rounded-2xl shadow-sm hover:shadow-md border border-gray-100 p-6 flex flex-col justify-between transition">
+                    <div class="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all p-5 flex flex-col justify-between">
                         <div>
-                            <div class="flex justify-between items-start">
-                                <h4 class="text-xl font-bold text-blue-900">${p.code}</h4>
-                                <span class="bg-blue-100 text-blue-800 text-xs font-semibold px-2.5 py-0.5 rounded">${p.brand}</span>
+                            <div class="flex justify-between items-start gap-2">
+                                <h4 class="text-xl font-extrabold text-slate-900 tracking-tight">${item.code}</h4>
+                                <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2.5 py-1 rounded-lg uppercase border border-slate-200">${item.brand}</span>
                             </div>
-                            <p class="text-sm text-gray-400 mt-1"><i class="fa-solid fa-link"></i> Veri Kaynağı: ${p.source}</p>
+                            <div class="text-xs text-gray-400 mt-1.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-nodes text-amber-500"></i> Kaynak: ${item.source}
+                            </div>
                             
-                            <div class="mt-4 flex items-center gap-4">
-                                <div class="text-3xl font-black text-emerald-600">${p.price} <span class="text-sm font-normal">TL</span></div>
-                                <div class="text-sm ${p.stock > 20 ? 'text-gray-600' : 'text-amber-600 font-medium'}">
-                                    <i class="fa-solid fa-warehouse"></i> Stok: ${p.stock} Adet
-                                </div>
+                            <div class="mt-5 flex items-baseline gap-1">
+                                <span class="text-3xl font-black text-slate-900">${Number(item.price).toFixed(2)}</span>
+                                <span class="text-sm font-bold text-gray-500">TL</span>
+                            </div>
+                            
+                            <div class="mt-2 text-sm flex items-center gap-1.5 ${item.stock > 10 ? 'text-emerald-600 font-medium' : 'text-amber-600 font-semibold'}">
+                                <i class="fa-solid fa-warehouse"></i> Anlık Stok: ${item.stock} Adet
                             </div>
                         </div>
-                        <a href="https://wa.me/905000000000?text=Merhaba, RulmanPazar'dan ${p.code} (${p.brand}) ürünü için sipariş/teklif almak istiyorum." target="_blank" class="mt-6 w-full bg-emerald-600 text-white text-center font-bold py-3 rounded-xl hover:bg-emerald-500 transition shadow-sm flex items-center justify-center gap-2">
-                            <i class="fa-brands fa-whatsapp text-lg"></i> Satın Al / Teklif İste
+
+                        <a href="https://wa.me/905320000000?text=Merhaba, RulmanPazar sitesinden ${item.code} - ${item.brand} rulmanı için sipariş talebimiz bulunmaktadır." target="_blank" class="mt-6 w-full bg-emerald-600 hover:bg-emerald-500 text-white text-center font-bold py-3 rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 text-sm">
+                            <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp ile Hızlı Sipariş
                         </a>
-                    </div>
-                `;
+                    </div>`;
             });
         }
 
-        // Yönetim tablosunu doldur
-        function renderAdminTable() {
-            const products = getProducts();
-            const tbody = document.getElementById('admin-table-body');
-            tbody.innerHTML = "";
-
-            products.forEach((p, index) => {
-                tbody.innerHTML += `
-                    <tr class="border-b border-gray-100 hover:bg-gray-50 text-gray-700">
-                        <td class="p-3 font-bold">${p.code}</td>
-                        <td class="p-3"><span class="bg-gray-200 text-gray-800 text-xs px-2 py-1 rounded">${p.brand}</span></td>
-                        <td class="p-3">${p.stock} Adet</td>
-                        <td class="p-3 font-semibold text-emerald-600">${p.price} TL</td>
-                        <td class="p-3 text-sm text-gray-500">${p.source}</td>
-                        <td class="p-3 text-center">
-                            <button onclick="deleteProduct(${index})" class="text-red-500 hover:text-red-700 p-2">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
-        }
-
-        // Yeni Ürün Ekleme (Form gönderildiğinde)
-        function addProduct(e) {
-            e.preventDefault();
-            const products = getProducts();
-
-            const newProduct = {
-                code: document.getElementById('form-code').value.toUpperCase(),
-                brand: document.getElementById('form-brand').value.toUpperCase(),
-                stock: parseInt(document.getElementById('form-stock').value),
-                price: parseFloat(document.getElementById('form-price').value),
-                source: document.getElementById('form-source').value
-            };
-
-            products.push(newProduct);
-            localStorage.setItem("rulman_stoklari", JSON.stringify(products));
-            
-            document.getElementById('product-form').reset();
-            renderAdminTable();
-            alert("Rulman başarıyla stoğa eklendi!");
-        }
-
-        // Ürün Silme
-        function deleteProduct(index) {
-            if(confirm("Bu rulman stoğunu silmek istediğinize emin misiniz?")) {
-                const products = getProducts();
-                products.splice(index, 1);
-                localStorage.setItem("rulman_stoklari", JSON.stringify(products));
-                renderAdminTable();
+        // Toplu Veriyi Kaydetme Fonksiyonu
+        function saveBulkData() {
+            const rawInput = document.getElementById('bulk-json-input').value;
+            try {
+                const parsedData = JSON.parse(rawInput);
+                if (!Array.isArray(parsedData)) {
+                    alert("HATA: Girdiğiniz veri bir liste (Array) formatında olmalıdır! Klasör işaretlerini [] kontrol edin.");
+                    return;
+                }
+                localStorage.setItem("rulman_pazar_database", JSON.stringify(parsedData));
+                alert("Harika! Tüm liste başarıyla güncellendi ve yayına alındı.");
+                showPage('customer');
+            } catch (e) {
+                alert("HATA: Yapıştırdığınız veri formatı hatalı (Geçersiz JSON). Lütfen virgülleri ve tırnak işaretlerini kontrol edin.");
             }
         }
 
-        // Sayfa ilk açıldığında müşteri listesini yükle
-        filterProducts();
+        // İlk Açılış
+        displayProducts();
     </script>
 
-    <style>
-        .animate-spin-slow { animation: spin 8s linear infinite; }
-        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    </style>
 </body>
 </html>
