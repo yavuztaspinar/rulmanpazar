@@ -381,6 +381,44 @@
 
         // Sayfa açıldığında verileri yükle
         verileriGetir();
-    </script>
+    </script><style>
+  .whatsapp-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #25D366;
+    color: #ffffff !important;
+    text-decoration: none !important;
+    padding: 12px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+    z-index: 9999;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+
+  .whatsapp-btn:hover {
+    transform: scale(1.05);
+    background-color: #20ba5a;
+  }
+
+  .whatsapp-btn img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
+  }
+</style>
+
+<a href="https://wa.me/905327600509?text=Merhaba,%20rulmanlar%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." 
+   class="whatsapp-btn" 
+   target="_blank" 
+   rel="noopener noreferrer">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+  WhatsApp Destek
+</a>
 </body>
 </html>
