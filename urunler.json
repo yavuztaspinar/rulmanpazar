@@ -1,0 +1,23 @@
+[
+    {
+        "code": "6204-2RSH",
+        "brand": "SKF",
+        "stock": 140,
+        "price": 165.00,
+        "source": "Ana Distribütör"
+    },
+    {
+        "code": "6305-ZZ",
+        "brand": "ORS",
+        "stock": 85,
+        "price": 95.50,
+        "source": "B Bölge Bayi"
+    },
+    {
+        "code": "NU 314 ECP",
+        "brand": "FAG",
+        "stock": 8,
+        "price": 890.00,
+        "source": "Almanya Merkez"
+    }
+]
