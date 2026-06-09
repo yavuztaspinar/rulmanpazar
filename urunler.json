@@ -800,3 +800,66 @@
     "stok": 55
   }
 ]
+[
+  {
+    "kategori": "Kayışlar",
+    "ad": "Bando 13X1000 Düz Kayış",
+    "fiyat": 150.00,
+    "stok": 25
+  },
+  {
+    "kategori": "Kayışlar",
+    "ad": "Bando 10X950 Düz Kayış",
+    "fiyat": 125.50,
+    "stok": 12
+  },
+  {
+    "kategori": "Rulmanlar",
+    "ad": "6204 ZZ Rulman",
+    "ic_cap": 20,
+    "dis_cap": 47,
+    "genislik": 14,
+    "fiyat": 85.00,
+    "stok": 120
+  },
+  {
+    "kategori": "Rulmanlar",
+    "ad": "6301 2RS Rulman",
+    "ic_cap": 12,
+    "dis_cap": 37,
+    "genislik": 12,
+    "fiyat": 45.00,
+    "stok": 0
+  }
+][
+  {
+    "kategori": "Kayışlar",
+    "ad": "Bando 13X1000 Düz Kayış",
+    "fiyat": 150.00,
+    "stok": 25
+  },
+  {
+    "kategori": "Kayışlar",
+    "ad": "Bando 10X950 Düz Kayış",
+    "fiyat": 125.50,
+    "stok": 12
+  },
+  {
+    "kategori": "Rulmanlar",
+    "ad": "6204 ZZ Rulman",
+    "ic_cap": 20,
+    "dis_cap": 47,
+    "genislik": 14,
+    "fiyat": 85.00,
+    "stok": 120
+  },
+  {
+    "kategori": "Rulmanlar",
+    "ad": "6301 2RS Rulman",
+    "ic_cap": 12,
+    "dis_cap": 37,
+    "genislik": 12,
+    "fiyat": 45.00,
+    "stok": 0
+  }
+]
