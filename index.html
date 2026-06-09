@@ -481,10 +481,11 @@
             else secilenIcCaplar.delete(sayiDegeri);
             filtreleriUygula();
         }
-
-        document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
-        verilesiGetir = verileriGetir();
+document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
+        // Sayfa açıldığında fonksiyonu doğrudan çağırıyoruz:
+        verileriGetir();
     </script>
+       
 
     <a href="https://wa.me/905327600509?text=Merhaba,%20rulmanlar%20ve%20kay%C4%B1%C5%9Flar%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." 
        class="whatsapp-btn" 
