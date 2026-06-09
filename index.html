@@ -56,6 +56,12 @@
             gap: 2rem;
         }
 
+        .brand-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
         .logo {
             display: flex;
             align-items: center;
@@ -84,6 +90,33 @@
         .logo h1 span {
             color: var(--primary);
             font-weight: 400;
+        }
+
+        /* YENİ EKLENEN TELEFON ALANI STİLİ */
+        .header-phone {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 700;
+            font-size: 1rem;
+            background-color: #f1f5f9;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius-md);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .header-phone:hover {
+            background-color: #e2e8f0;
+            color: var(--primary);
+        }
+
+        .header-phone svg {
+            width: 18px;
+            height: 18px;
+            fill: var(--primary);
         }
 
         .search-box {
@@ -343,8 +376,11 @@
                 align-items: stretch;
                 gap: 1rem;
             }
+            .brand-wrapper {
+                justify-content: space-between;
+            }
             .logo {
-                justify-content: center;
+                justify-content: flex-start;
             }
             .search-box {
                 max-width: 100%;
@@ -356,22 +392,32 @@
 
     <header>
         <div class="header-container">
-            <a href="#" class="logo">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="#3b82f6" stroke-width="7" />
-                    <circle cx="50" cy="50" r="24" fill="none" stroke="#0f172a" stroke-width="6" />
-                    <circle cx="50" cy="50" r="14" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3" />
-                    <circle cx="50" cy="11" r="5.5" fill="#3b82f6" />
-                    <circle cx="77.5" cy="22.5" r="5.5" fill="#3b82f6" />
-                    <circle cx="89" cy="50" r="5.5" fill="#3b82f6" />
-                    <circle cx="77.5" cy="77.5" r="5.5" fill="#3b82f6" />
-                    <circle cx="50" cy="89" r="5.5" fill="#3b82f6" />
-                    <circle cx="22.5" cy="77.5" r="5.5" fill="#3b82f6" />
-                    <circle cx="11" cy="50" r="5.5" fill="#3b82f6" />
-                    <circle cx="22.5" cy="22.5" r="5.5" fill="#3b82f6" />
-                </svg>
-                <h1>YAVUZ <span>RULMAN</span></h1>
-            </a>
+            <div class="brand-wrapper">
+                <a href="#" class="logo">
+                    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="50" cy="50" r="42" fill="none" stroke="#3b82f6" stroke-width="7" />
+                        <circle cx="50" cy="50" r="24" fill="none" stroke="#0f172a" stroke-width="6" />
+                        <circle cx="50" cy="50" r="14" fill="none" stroke="#3b82f6" stroke-width="1.5" stroke-dasharray="4,3" />
+                        <circle cx="50" cy="11" r="5.5" fill="#3b82f6" />
+                        <circle cx="77.5" cy="22.5" r="5.5" fill="#3b82f6" />
+                        <circle cx="89" cy="50" r="5.5" fill="#3b82f6" />
+                        <circle cx="77.5" cy="77.5" r="5.5" fill="#3b82f6" />
+                        <circle cx="50" cy="89" r="5.5" fill="#3b82f6" />
+                        <circle cx="22.5" cy="77.5" r="5.5" fill="#3b82f6" />
+                        <circle cx="11" cy="50" r="5.5" fill="#3b82f6" />
+                        <circle cx="22.5" cy="22.5" r="5.5" fill="#3b82f6" />
+                    </svg>
+                    <h1>YAVUZ <span>RULMAN</span></h1>
+                </a>
+                
+                <a href="tel:05327600509" class="header-phone" title="Tıkla ve Ara">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M20.01 15.38c-1.23 0-2.42-.2-3.53-.56a.977.977 0 0 0-1.01.24l-2.2 2.2a15.045 15.045 0 0 1-6.59-6.59l2.2-2.21c.27-.26.35-.65.24-1A11.36 11.36 0 0 1 8.5 4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.59c0-.55-.45-1-1-1z"/>
+                    </svg>
+                    <span>0532 760 05 09</span>
+                </a>
+            </div>
+
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Rulman kodu, ölçü veya kategori ara...">
             </div>
@@ -396,28 +442,26 @@
     </div>
 
     <script>
-        // ÜRÜN VERİLERİNİZİ DOĞRUDAN KODA ENTEGRE ETTİK (Hata riskini sıfırladık)
-        // İleride ürün eklemek veya çıkarmak isterseniz sadece buradaki listeyi düzenlemeniz yeterlidir.
-        let tumUrunler = [
-            { "ad": "6201 ZZ Sabit Bilyalı Rulman", "kategori": "Bilyalı Rulmanlar", "ic_cap": "12", "dis_cap": "32", "genislik": "10", "fiyat": 45.50, "stok": 150 },
-            { "ad": "6202 2RS Bilyalı Rulman", "kategori": "Bilyalı Rulmanlar", "ic_cap": "15", "dis_cap": "35", "genislik": "11", "fiyat": 52.00, "stok": 200 },
-            { "ad": "6303 ZZ Yüksek Devir Rulmanı", "kategori": "Bilyalı Rulmanlar", "ic_cap": "17", "dis_cap": "47", "genislik": "14", "fiyat": 78.25, "stok": 85 },
-            { "ad": "SPA 1250 Endüstriyel V Kayış", "kategori": "Kayışlar", "ic_cap": "-", "dis_cap": "-", "genislik": "12.7", "fiyat": 120.00, "stok": 40 },
-            { "ad": "XPA 1000 Dişli Dar V Kayış", "kategori": "Kayışlar", "ic_cap": "-", "dis_cap": "-", "genislik": "13", "fiyat": 145.00, "stok": 0 },
-            { "ad": "30204 Konik Makaralı Rulman", "kategori": "Makaralı Rulmanlar", "ic_cap": "20", "dis_cap": "47", "genislik": "15.25", "fiyat": 115.50, "stok": 60 },
-            { "ad": "UCFL 204 Döküm Yataklı Rulman", "kategori": "Yataklı Rulmanlar", "ic_cap": "20", "dis_cap": "113", "genislik": "33.3", "fiyat": 195.00, "stok": 30 }
-        ];
-
+        let tumUrunler = [];
         let secilenKategoriler = new Set();
         let secilenIcCaplar = new Set();
 
-        function sistemiBaslat() {
+        async function sistemiBaslat() {
             try {
+                const cevap = await fetch('urunler.json');
+                if (!cevap.ok) {
+                    throw new Error('JSON yüklenemedi! Durum: ' + cevap.status);
+                }
+                tumUrunler = await cevap.json();
                 filtreleriOlustur();
                 urunleriListele(tumUrunler);
             } catch (error) {
                 console.error('Sistem Hatası:', error);
-                document.getElementById('productsGrid').innerHTML = '<div class="no-results">Arayüz yüklenirken teknik bir hata oluştu.</div>';
+                document.getElementById('productsGrid').innerHTML = `
+                    <div class="no-results">
+                        Veriler yüklenirken bir hata oluştu.<br>
+                        <small style="color:#ef4444; font-weight:bold;">${error.message}</small>
+                    </div>`;
             }
         }
 
@@ -449,7 +493,6 @@
 
         function urunleriListele(urunListesi) {
             const grid = document.getElementById('productsGrid');
-            
             if (urunListesi.length === 0) {
                 grid.innerHTML = '<div class="no-results">Aradığınız kriterlere veya ölçülere uygun ürün bulunamadı.</div>';
                 return;
@@ -476,21 +519,16 @@
 
         function filtreleriUygula() {
             const aramaKelimesi = document.getElementById('searchInput').value.toLowerCase().trim();
-
             const filtrelenmis = tumUrunler.filter(urun => {
                 const urunAd = urun.ad ? urun.ad.toLowerCase() : '';
                 const urunKat = urun.kategori ? urun.kategori.toLowerCase() : '';
-
                 const adEslesti = urunAd.includes(aramaKelimesi);
                 const katEslesti = urunKat.includes(aramaKelimesi);
                 const aramaSonuc = adEslesti || katEslesti;
-
                 const kategoriSonuc = secilenKategoriler.size === 0 || secilenKategoriler.has(urun.kategori);
                 const icCapSonuc = secilenIcCaplar.size === 0 || secilenIcCaplar.has(Number(urun.ic_cap));
-
                 return aramaSonuc && kategoriSonuc && icCapSonuc;
             });
-
             urunleriListele(filtrelenmis);
         }
 
@@ -508,12 +546,10 @@
         }
 
         document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
-        
-        // Tarayıcı yüklenir yüklenmez sistemi başlatıyoruz
         window.addEventListener('DOMContentLoaded', sistemiBaslat);
     </script>
 
-    <a href="https://wa.me/905327600509?text=Merhaba,%20Yavuz%20Rulman%20katalo%C4%9Funuzdan%20ula%C5%9F%C4%B1yorum.%20%C3%9Cr%C3%BCnler%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim?" 
+    <a href="https://wa.me/905327600509?text=Merhaba,%20Yavuz%20Rulman%20katalo%C4%9Funuzdan%20ula%C5%9F%C4%B1yorum.%20%C3%9Ur%C3%BCnler%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim?" 
        class="whatsapp-btn" 
        target="_blank" 
        rel="noopener noreferrer">
