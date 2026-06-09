@@ -400,19 +400,27 @@
         let secilenKategoriler = new Set();
         let secilenIcCaplar = new Set();
 
-        // Ürün verilerini çektiğimiz JSON kaynağı (Veritabanınız)
+        // Yerel bağlama: 'urunler.json' doğrudan index.html ile aynı klasörde aranır.
         async function verileriGetir() {
             try {
-                // Not: Ürün veri dosyanızın yerini deponun yeni ismine göre otomatik güncelledik.
-                const response = await fetch('https://yavuztaspinar.github.io/yavuzrulman/urunler.json');
-                if (!response.ok) throw new Error('Veri çekilemedi');
+                const response = await fetch('urunler.json');
+                if (!response.ok) throw new Error('Yükleme hatası: ' + response.statusText);
                 tumUrunler = await response.json();
                 
                 filtreleriOlustur();
                 urunleriListele(tumUrunler);
             } catch (error) {
                 console.error('Veri Hatası:', error);
-                document.getElementById('productsGrid').innerHTML = '<div class="no-results">Ürün listesi şu anda yüklenemedi. Lütfen daha sonra tekrar deneyiniz.</div>';
+                document.getElementById('productsGrid').innerHTML = `
+                    <div class="no-results">
+                        <strong>Ürünler yüklenirken bir sorun oluştu.</strong><br>
+                        <span style="font-size: 0.85rem; color: #ef4444; display: block; margin-top: 10px;">
+                            Hata Detayı: ${error.message}
+                        </span>
+                        <span style="font-size: 0.9rem; display: block; margin-top: 15px; color: var(--text-dark);">
+                            Lütfen GitHub deponuzda <strong>urunler.json</strong> dosyasının tam olarak bu index.html dosyasıyla yan yana (aynı klasörde) bulunduğundan emin olun.
+                        </span>
+                    </div>`;
             }
         }
 
