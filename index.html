@@ -217,4 +217,189 @@
 
         .product-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.05);
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .product-category {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            background: var(--bg-color);
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            width: fit-content;
+        }
+
+        .product-specs {
+            font-size: 0.9rem;
+            border-top: 1px dashed var(--border-color);
+            border-bottom: 1px dashed var(--border-color);
+            padding: 0.5rem 0;
+            margin: 0.5rem 0;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.25rem;
+        }
+
+        .spec-label {
+            color: var(--text-muted);
+        }
+
+        .product-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--primary-color);
+        }
+
+        .product-stock {
+            font-size: 0.85rem;
+            color: #16a34a;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="logo-wrapper">
+                <a href="#" class="logo">
+                    <i class="fa-solid to fa-gear style" style="font-size: 1.75rem; color: var(--primary-color);"></i>
+                    <h1>Yavuz <span>Rulman</span></h1>
+                </a>
+                <a href="tel:+901234567890" class="phone-link">
+                    <i class="fa-solid fa-phone"></i> İletişime Geç
+                </a>
+            </div>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Rulman adı veya ölçü ara...">
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="filter-section">
+                <h3>Kategoriler</h3>
+                <ul class="filter-list" id="categoryFilter">
+                    </ul>
+            </div>
+        </aside>
+
+        <main class="products-grid" id="productsGrid">
+            </main>
+    </div>
+
+    <script>
+        // Sizin paylaştığınız JSON Verisi
+        const urunler = [
+            { "id": 1, "ad": "6200 C3 Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 10, "dis_cap": 30, "genislik": 9, "fiyat": 45.00, "stok": 150 },
+            { "id": 2, "ad": "6201 2RS Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 12, "dis_cap": 32, "genislik": 10, "fiyat": 48.50, "stok": 200 },
+            { "id": 3, "ad": "6202 ZZ Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 15, "dis_cap": 35, "genislik": 11, "fiyat": 52.00, "stok": 180 },
+            { "id": 4, "ad": "6203 C3 Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 17, "dis_cap": 40, "genislik": 12, "fiyat": 58.00, "stok": 250 },
+            { "id": 5, "ad": "6204 2RS Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 20, "dis_cap": 47, "genislik": 14, "fiyat": 65.00, "stok": 300 },
+            { "id": 6, "ad": "6205 ZZ C3 Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 25, "dis_cap": 52, "genislik": 15, "fiyat": 78.00, "stok": 120 },
+            { "id": 7, "ad": "6301 2RS Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 12, "dis_cap": 37, "genislik": 12, "fiyat": 62.00, "stok": 90 },
+            { "id": 8, "ad": "6302 ZZ Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 15, "dis_cap": 42, "genislik": 13, "fiyat": 70.00, "stok": 85 },
+            { "id": 9, "ad": "30203 Konik Makaralı Rulman", "kategori": "Konik Makaralı Rulmanlar", "ic_cap": 17, "dis_cap": 40, "genislik": 13.25, "fiyat": 110.00, "stok": 45 },
+            { "id": 10, "ad": "30204 Konik Makaralı Rulman", "kategori": "Konik Makaralı Rulmanlar", "ic_cap": 20, "dis_cap": 47, "genislik": 15.25, "fiyat": 125.00, "stok": 60 },
+            { "id": 11, "ad": "32205 Konik Makaralı Rulman", "kategori": "Konik Makaralı Rulmanlar", "ic_cap": 25, "dis_cap": 52, "genislik": 19.25, "fiyat": 155.00, "stok": 40 },
+            { "id": 12, "ad": "NU 204 ECP Silindirik Makaralı", "kategori": "Silindirik Makaralı Rulmanlar", "ic_cap": 20, "dis_cap": 47, "genislik": 14, "fiyat": 195.00, "stok": 25 },
+            { "id": 13, "ad": "NU 205 ECP Silindirik Makaralı", "kategori": "Silindirik Makaralı Rulmanlar", "ic_cap": 25, "dis_cap": 52, "genislik": 15, "fiyat": 220.00, "stok": 30 },
+            { "id": 14, "ad": "NJ 206 ECP Silindirik Makaralı", "kategori": "Silindirik Makaralı Rulmanlar", "ic_cap": 30, "dis_cap": 62, "genislik": 16, "fiyat": 265.00, "stok": 15 },
+            { "id": 15, "ad": "1204 Oynak Bilyalı Rulman", "kategori": "Oynak Bilyalı Rulmanlar", "ic_cap": 20, "dis_cap": 47, "genislik": 14, "fiyat": 115.00, "stok": 50 },
+            { "id": 16, "ad": "2205 2RS Oynak Bilyalı Rulman", "kategori": "Oynak Bilyalı Rulmanlar", "ic_cap": 25, "dis_cap": 52, "genislik": 18, "fiyat": 145.00, "stok": 35 },
+            { "id": 17, "ad": "22210 EK Oynak Makaralı Rulman", "kategori": "Oynak Makaralı Rulmanlar", "ic_cap": 50, "dis_cap": 90, "genislik": 23, "fiyat": 420.00, "stok": 12 },
+            { "id": 18, "ad": "22212 E Oynak Makaralı Rulman", "kategori": "Oynak Makaralı Rulmanlar", "ic_cap": 60, "dis_cap": 110, "genislik": 28, "fiyat": 580.00, "stok": 10 },
+            { "id": 19, "ad": "51104 Eksenel Bilyalı Rulman", "kategori": "Eksenel Bilyalı Rulmanlar", "ic_cap": 20, "dis_cap": 35, "genislik": 10, "fiyat": 85.00, "stok": 70 },
+            { "id": 20, "ad": "51206 Eksenel Bilyalı Rulman", "kategori": "Eksenel Bilyalı Rulmanlar", "ic_cap": 30, "dis_cap": 52, "genislik": 16, "fiyat": 130.00, "stok": 40 },
+            { "id": 21, "ad": "6000 ZZ Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 10, "dis_cap": 26, "genislik": 8, "fiyat": 38.00, "stok": 160 },
+            { "id": 22, "ad": "6001 2RS Rulman", "kategori": "Sabit Bilyalı Rulmanlar", "ic_cap": 12, "dis_cap": 28, "genislik": 8, "fiyat": 41.50, "stok": 140 }
+        ];
+
+        const productsGrid = document.getElementById('productsGrid');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const searchInput = document.getElementById('searchInput');
+
+        // 1. Kategorileri Dinamik Olarak Sol Menüye Ekleme
+        const kategoriler = ['Hepsi', ...new Set(urunler.map(u => u.kategori))];
+        kategoriler.forEach((kat, index) => {
+            const li = document.createElement('li');
+            li.className = 'filter-item';
+            li.innerHTML = `
+                <input type="radio" name="category" id="kat_${index}" value="${kat}" ${kat === 'Hepsi' ? 'checked' : ''}>
+                <label for="kat_${index}">${kat}</label>
+            `;
+            categoryFilter.appendChild(li);
+        });
+
+        // 2. Ürünleri Listeleme Fonksiyonu
+        function urunleriListele(filtreliList) {
+            productsGrid.innerHTML = '';
+            
+            if(filtreliList.length === 0) {
+                productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 2rem;">Aranan kriterlere uygun ürün bulunamadı.</p>';
+                return;
+            }
+
+            filtreliList.forEach(urun => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-title">${urun.ad}</div>
+                    <div class="product-category">${urun.kategori}</div>
+                    <div class="product-specs">
+                        <div class="spec-item"><span class="spec-label">İç Çap (d):</span> <span>${urun.ic_cap} mm</span></div>
+                        <div class="spec-item"><span class="spec-label">Dış Çap (D):</span> <span>${urun.dis_cap} mm</span></div>
+                        <div class="spec-item"><span class="spec-label">Genişlik (B):</span> <span>${urun.genislik} mm</span></div>
+                    </div>
+                    <div class="product-footer">
+                        <div class="product-price">${urun.fiyat.toFixed(2)} ₺</div>
+                        <div class="product-stock">Stok: ${urun.stok} ad.</div>
+                    </div>
+                `;
+                productsGrid.appendChild(card);
+            });
+        }
+
+        // 3. Filtreleme ve Arama Mekanizması
+        function filtrele() {
+            const arananKelime = searchInput.value.toLowerCase();
+            const seciliKategori = document.querySelector('input[name="category"]:checked').value;
+
+            const sonuc = urunler.filter(urun => {
+                const kategoriUyumlu = seciliKategori === 'Hepsi' || urun.kategori === seciliKategori;
+                const isimUyumlu = urun.ad.toLowerCase().includes(arananKelime);
+                // Ölçülere göre de hızlı arama yapabilmek için:
+                const olcuUyumlu = urun.ic_cap.toString().includes(arananKelime) || urun.dis_cap.toString().includes(arananKelime);
+                
+                return kategoriUyumlu && (isimUyumlu || olcuUyumlu);
+            });
+
+            urunleriListele(sonuc);
+        }
+
+        // Event Listeners (Dinleyiciler)
+        searchInput.addEventListener('input', filtrele);
+        categoryFilter.addEventListener('change', filtrele);
+
+        // İlk açılışta tüm ürünleri getir
+        urunleriListele(urunler);
+    </script>
+</body>
+</html>
