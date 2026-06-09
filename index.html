@@ -384,7 +384,7 @@
 
         async function verileriGetir() {
             try {
-                const response = await fetch('https://yavuztaspinar.github.io/rulmanpazar/urunler.json');
+               const response = await fetch('./urunler.json');
                 if (!response.ok) throw new Error('Veri çekilemedi');
                 tumUrunler = await response.json();
                 
