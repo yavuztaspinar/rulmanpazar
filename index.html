@@ -319,9 +319,8 @@
             background-color: #20ba5a;
         }
 
-        .whatsapp-btn img {
-            width: 24px;
-            height: 24px;
+        .whatsapp-btn i {
+            font-size: 20px;
             margin-right: 10px;
         }
     </style>
@@ -376,17 +375,20 @@
         </main>
     </div>
 
+    <a href="https://wa.me/905327600509" class="whatsapp-btn" target="_blank">
+        <i class="fa-brands fa-whatsapp"></i> WhatsApp Destek
+    </a>
+
     <script>
         let tumUrunler = [];
         let secilenKategoriler = new Set();
         let secilenIcCaplar = new Set();
         
-        // Kırılmayı önlemek için ana element seçiciyi en üstte tanımladık
         const productsGrid = document.getElementById('productsGrid');
+        const searchInput = document.getElementById('searchInput');
 
         async function verileriGetir() {
             try {
-                // GitHub Pages uyumluluğu için veri çekme yolu yerel yapıldı
                 const response = await fetch('./urunler.json');
                 if (!response.ok) throw new Error('Veri çekilemedi');
                 tumUrunler = await response.json();
@@ -460,7 +462,7 @@
         }
 
         function filtreleriUygula() {
-            const aramaKelimesi = document.getElementById('searchInput').value.toLowerCase().trim();
+            const aramaKelimesi = searchInput.value.toLowerCase().trim();
 
             const filtrelenmis = tumUrunler.filter(urun => {
                 const urunAd = urun.ad ? urun.ad.toLowerCase() : '';
@@ -492,4 +494,13 @@
             filtreleriUygula();
         }
 
-        const sInput = document.getElementById('
+        // Arama kutusuna yazıldığında filtreleri tetikle
+        if(searchInput) {
+            searchInput.addEventListener('input', filtreleriUygula);
+        }
+
+        // KRİTİK EKSİKLİK: Sayfa yüklendiğinde verileri getiren fonksiyonu tetikliyoruz
+        document.addEventListener('DOMContentLoaded', verileriGetir);
+    </script>
+</body>
+</html>
