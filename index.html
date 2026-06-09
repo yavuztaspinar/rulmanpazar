@@ -380,11 +380,14 @@
         let tumUrunler = [];
         let secilenKategoriler = new Set();
         let secilenIcCaplar = new Set();
+        
+        // Kırılmayı önlemek için ana element seçiciyi en üstte tanımladık
         const productsGrid = document.getElementById('productsGrid');
 
         async function verileriGetir() {
             try {
-               const response = await fetch('./urunler.json');
+                // GitHub Pages uyumluluğu için veri çekme yolu yerel yapıldı
+                const response = await fetch('./urunler.json');
                 if (!response.ok) throw new Error('Veri çekilemedi');
                 tumUrunler = await response.json();
                 
@@ -392,7 +395,9 @@
                 urunleriListele(tumUrunler);
             } catch (error) {
                 console.error('Hata:', error);
-                productsGrid.innerHTML = '<div class="no-results">Ürün verileri yüklenirken bir sorun oluştu.</div>';
+                if(productsGrid) {
+                    productsGrid.innerHTML = '<div class="no-results">Ürün verileri yüklenirken bir sorun oluştu. Klasörde urunler.json dosyası olduğundan emin olun.</div>';
+                }
             }
         }
 
@@ -403,23 +408,29 @@
             const icCaplar = [...new Set(tumUrunler.filter(u => u.ic_cap !== undefined && u.ic_cap !== null).map(u => Number(u.ic_cap)).filter(n => !isNaN(n)))].sort((a, b) => a - b);
 
             const catContainer = document.getElementById('categoryFilters');
-            catContainer.innerHTML = kategoriler.map(kat => `
-                <label class="filter-item">
-                    <input type="checkbox" value="${kat}" onchange="kategoriFiltrele(this)">
-                    <span>${kat}</span>
-                </label>
-            `).join('');
+            if(catContainer) {
+                catContainer.innerHTML = kategoriler.map(kat => `
+                    <label class="filter-item">
+                        <input type="checkbox" value="${kat}" onchange="kategoriFiltrele(this)">
+                        <span>${kat}</span>
+                    </label>
+                `).join('');
+            }
 
             const icContainer = document.getElementById('icCapFilters');
-            icContainer.innerHTML = icCaplar.map(cap => `
-                <label class="filter-item">
-                    <input type="checkbox" value="${cap}" onchange="icCapFiltrele(this)">
-                    <span>${cap} mm</span>
-                </label>
-            `).join('');
+            if(icContainer) {
+                icContainer.innerHTML = icCaplar.map(cap => `
+                    <label class="filter-item">
+                        <input type="checkbox" value="${cap}" onchange="icCapFiltrele(this)">
+                        <span>${cap} mm</span>
+                    </label>
+                `).join('');
+            }
         }
 
         function urunleriListele(urunListesi) {
+            if (!productsGrid) return;
+            
             if (urunListesi.length === 0) {
                 productsGrid.innerHTML = '<div class="no-results">Aradığınız kriterlere uygun ürün bulunamadı.</div>';
                 return;
@@ -481,18 +492,4 @@
             filtreleriUygula();
         }
 
-        document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
-        
-        // Başlangıç tetiklemesi
-        verileriGetir();
-    </script>
-
-    <a href="https://wa.me/905327600509?text=Merhaba,%20rulmanlar%20ve%20kay%C4%B1%C5%9Flar%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." 
-       class="whatsapp-btn" 
-       target="_blank" 
-       rel="noopener noreferrer">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-        WhatsApp Destek
-    </a>
-</body>
-</html>
+        const sInput = document.getElementById('
