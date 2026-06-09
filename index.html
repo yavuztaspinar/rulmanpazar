@@ -391,43 +391,40 @@
         </aside>
 
         <main class="products-grid" id="productsGrid">
-            <div class="no-results">Sistem kontrol ediliyor ve ürünler yükleniyor...</div>
+            <div class="no-results">Yükleniyor...</div>
         </main>
     </div>
 
     <script>
-        let tumUrunler = [];
+        // ÜRÜN VERİLERİNİZİ DOĞRUDAN KODA ENTEGRE ETTİK (Hata riskini sıfırladık)
+        // İleride ürün eklemek veya çıkarmak isterseniz sadece buradaki listeyi düzenlemeniz yeterlidir.
+        let tumUrunler = [
+            { "ad": "6201 ZZ Sabit Bilyalı Rulman", "kategori": "Bilyalı Rulmanlar", "ic_cap": "12", "dis_cap": "32", "genislik": "10", "fiyat": 45.50, "stok": 150 },
+            { "ad": "6202 2RS Bilyalı Rulman", "kategori": "Bilyalı Rulmanlar", "ic_cap": "15", "dis_cap": "35", "genislik": "11", "fiyat": 52.00, "stok": 200 },
+            { "ad": "6303 ZZ Yüksek Devir Rulmanı", "kategori": "Bilyalı Rulmanlar", "ic_cap": "17", "dis_cap": "47", "genislik": "14", "fiyat": 78.25, "stok": 85 },
+            { "ad": "SPA 1250 Endüstriyel V Kayış", "kategori": "Kayışlar", "ic_cap": "-", "dis_cap": "-", "genislik": "12.7", "fiyat": 120.00, "stok": 40 },
+            { "ad": "XPA 1000 Dişli Dar V Kayış", "kategori": "Kayışlar", "ic_cap": "-", "dis_cap": "-", "genislik": "13", "fiyat": 145.00, "stok": 0 },
+            { "ad": "30204 Konik Makaralı Rulman", "kategori": "Makaralı Rulmanlar", "ic_cap": "20", "dis_cap": "47", "genislik": "15.25", "fiyat": 115.50, "stok": 60 },
+            { "ad": "UCFL 204 Döküm Yataklı Rulman", "kategori": "Yataklı Rulmanlar", "ic_cap": "20", "dis_cap": "113", "genislik": "33.3", "fiyat": 195.00, "stok": 30 }
+        ];
+
         let secilenKategoriler = new Set();
         let secilenIcCaplar = new Set();
 
-        // Yerel bağlama: 'urunler.json' doğrudan index.html ile aynı klasörde aranır.
-        async function verileriGetir() {
+        function sistemiBaslat() {
             try {
-                const response = await fetch('urunler.json');
-                if (!response.ok) throw new Error('Yükleme hatası: ' + response.statusText);
-                tumUrunler = await response.json();
-                
                 filtreleriOlustur();
                 urunleriListele(tumUrunler);
             } catch (error) {
-                console.error('Veri Hatası:', error);
-                document.getElementById('productsGrid').innerHTML = `
-                    <div class="no-results">
-                        <strong>Ürünler yüklenirken bir sorun oluştu.</strong><br>
-                        <span style="font-size: 0.85rem; color: #ef4444; display: block; margin-top: 10px;">
-                            Hata Detayı: ${error.message}
-                        </span>
-                        <span style="font-size: 0.9rem; display: block; margin-top: 15px; color: var(--text-dark);">
-                            Lütfen GitHub deponuzda <strong>urunler.json</strong> dosyasının tam olarak bu index.html dosyasıyla yan yana (aynı klasörde) bulunduğundan emin olun.
-                        </span>
-                    </div>`;
+                console.error('Sistem Hatası:', error);
+                document.getElementById('productsGrid').innerHTML = '<div class="no-results">Arayüz yüklenirken teknik bir hata oluştu.</div>';
             }
         }
 
         function filtreleriOlustur() {
             let digerKategoriler = [...new Set(tumUrunler.map(u => u.kategori).filter(k => k && k !== "Kayışlar"))].sort();
             let kategoriler = ["Kayışlar", ...digerKategoriler];
-            const icCaplar = [...new Set(tumUrunler.map(u => Number(u.ic_cap)).filter(n => !isNaN(n)))].sort((a, b) => a - b);
+            const icCaplar = [...new Set(tumUrunler.map(u => Number(u.ic_cap)).filter(n => !isNaN(n) && n > 0))].sort((a, b) => a - b);
 
             const catContainer = document.getElementById('categoryFilters');
             catContainer.innerHTML = kategoriler.map(kat => `
@@ -438,12 +435,16 @@
             `).join('');
 
             const icContainer = document.getElementById('icCapFilters');
-            icContainer.innerHTML = icCaplar.map(cap => `
-                <label class="filter-item">
-                    <input type="checkbox" value="${cap}" onchange="icCapFiltrele(this)">
-                    <span>${cap} mm</span>
-                </label>
-            `).join('');
+            if(icCaplar.length > 0) {
+                icContainer.innerHTML = icCaplar.map(cap => `
+                    <label class="filter-item">
+                        <input type="checkbox" value="${cap}" onchange="icCapFiltrele(this)">
+                        <span>${cap} mm</span>
+                    </label>
+                `).join('');
+            } else {
+                document.getElementById('icCapFilters').parentNode.style.display = 'none';
+            }
         }
 
         function urunleriListele(urunListesi) {
@@ -459,8 +460,8 @@
                     <div class="product-category">${urun.kategori || 'Genel'}</div>
                     <div class="product-title">${urun.ad}</div>
                     <div class="product-specs">
-                        <div class="spec-item"><div class="spec-label">İç Çap</div><div class="spec-value">${urun.ic_cap} mm</div></div>
-                        <div class="spec-item"><div class="spec-label">Dış Çap</div><div class="spec-value">${urun.dis_cap} mm</div></div>
+                        <div class="spec-item"><div class="spec-label">İç Çap</div><div class="spec-value">${urun.ic_cap === '-' ? '-' : urun.ic_cap + ' mm'}</div></div>
+                        <div class="spec-item"><div class="spec-label">Dış Çap</div><div class="spec-value">${urun.dis_cap === '-' ? '-' : urun.dis_cap + ' mm'}</div></div>
                         <div class="spec-item"><div class="spec-label">Genişlik</div><div class="spec-value">${urun.genislik || '-'} mm</div></div>
                     </div>
                     <div class="product-footer">
@@ -507,7 +508,9 @@
         }
 
         document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
-        verileriGetir();
+        
+        // Tarayıcı yüklenir yüklenmez sistemi başlatıyoruz
+        window.addEventListener('DOMContentLoaded', sistemiBaslat);
     </script>
 
     <a href="https://wa.me/905327600509?text=Merhaba,%20Yavuz%20Rulman%20katalo%C4%9Funuzdan%20ula%C5%9F%C4%B1yorum.%20%C3%9Cr%C3%BCnler%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim?" 
