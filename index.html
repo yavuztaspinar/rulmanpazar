@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yavuz Rulman - Ürün Kataloğu</title>
     
-    <!-- HER CİHAZDA TELEFON LOGOSUNUN GÖRÜNMESİNİ SAĞLAYAN GÜVENLİ LİNK (Font Awesome) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <style>
@@ -335,7 +334,6 @@
         <div class="header-container">
             <div class="logo-wrapper">
                 <div class="logo">
-                    <!-- Rulman Logosu -->
                     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                         <circle cx="50" cy="50" r="42" fill="none" stroke="#2563eb" stroke-width="6" />
                         <circle cx="50" cy="50" r="22" fill="none" stroke="#1e293b" stroke-width="5" />
@@ -352,7 +350,6 @@
                     <h1>YAVUZ <span>RULMAN</span></h1>
                 </div>
                 
-                <!-- Her cihazda kesinlikle açılan Font Awesome Telefon Logosu -->
                 <a href="tel:05327600509" class="phone-link">
                     <i class="fa-solid fa-phone"></i>
                     <span>0532 760 05 09</span>
@@ -403,7 +400,9 @@
         function filtreleriOlustur() {
             let digerKategoriler = [...new Set(tumUrunler.map(u => u.kategori).filter(k => k && k !== "Kayışlar"))].sort();
             let kategoriler = ["Kayışlar", ...digerKategoriler];
-            const icCaplar = [...new Set(tumUrunler.map(u => Number(u.ic_cap)).filter(n => !isNaN(n)))].sort((a, b) => a - b);
+            
+            // HATA ÖNLEME: Sadece 'ic_cap' alanı tanımlı olan (Rulman vb.) ürünleri süzüp filtre listesine ekler
+            const icCaplar = [...new Set(tumUrunler.filter(u => u.ic_cap !== undefined).map(u => Number(u.ic_cap)).filter(n => !isNaN(n)))].sort((a, b) => a - b);
 
             const catContainer = document.getElementById('categoryFilters');
             catContainer.innerHTML = kategoriler.map(kat => `
@@ -434,11 +433,15 @@
                 <div class="product-card">
                     <div class="product-category">${urun.kategori || 'Genel'}</div>
                     <div class="product-title">${urun.ad}</div>
-                    <div class="product-specs">
-                        <div class="spec-item"><span class="spec-label">İç Çap</span><span class="spec-value">${urun.ic_cap} mm</span></div>
-                        <div class="spec-item"><span class="spec-label">Dış Çap</span><span class="spec-value">${urun.dis_cap} mm</span></div>
-                        <div class="spec-item"><span class="spec-label">Genişlik</span><span class="spec-value">${urun.genislik || '-'} mm</span></div>
-                    </div>
+                    
+                    ${urun.ic_cap === undefined ? '' : `
+                        <div class="product-specs">
+                            <div class="spec-item"><span class="spec-label">İç Çap</span><span class="spec-value">${urun.ic_cap} mm</span></div>
+                            <div class="spec-item"><span class="spec-label">Dış Çap</span><span class="spec-value">${urun.dis_cap} mm</span></div>
+                            <div class="spec-item"><span class="spec-label">Genişlik</span><span class="spec-value">${urun.genislik || '-'} mm</span></div>
+                        </div>
+                    `}
+                    
                     <div class="product-footer">
                         <div class="product-price">${Number(urun.fiyat).toFixed(2)} TL</div>
                         <div class="stock-badge ${urun.stok > 0 ? 'stock-in' : 'stock-out'}">
@@ -461,11 +464,14 @@
                 const aramaSonuc = adEslesti || katEslesti;
 
                 const kategoriSonuc = secilenKategoriler.size === 0 || secilenKategoriler.has(urun.kategori);
-                const icCapSonuc = secilenIcCaplar.size === 0 || secilenIcCaplar.has(Number(urun.ic_cap));
+                
+                // HATA ÖNLEME: Eğer ürün kayışsa (ic_cap alanı yoksa), iç çap filtresine takılmadan doğrudan listelenmesini sağlar
+                const icCapSonuc = secilenIcCaplar.size === 0 || (urun.ic_cap !== undefined && secilenIcCaplar.has(Number(urun.ic_cap)));
 
                 return aramaSonuc && kategoriSonuc && icCapSonuc;
             });
 
+            grid.innerHTML = ""; // Güvenli temizlik
             urunleriListele(filtrelenmis);
         }
 
@@ -481,11 +487,12 @@
             else secilenIcCaplar.delete(sayiDegeri);
             filtreleriUygula();
         }
-document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
-        // Sayfa açıldığında fonksiyonu doğrudan çağırıyoruz:
+
+        document.getElementById('searchInput').addEventListener('input', filtreleriUygula);
+        
+        // BAŞLANGIÇ HATASI DÜZELTİLDİ: Sayfa açıldığında verileri çeken fonksiyon doğrudan tetikleniyor
         verileriGetir();
     </script>
-       
 
     <a href="https://wa.me/905327600509?text=Merhaba,%20rulmanlar%20ve%20kay%C4%B1%C5%9Flar%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." 
        class="whatsapp-btn" 
