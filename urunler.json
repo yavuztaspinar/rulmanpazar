@@ -1,0 +1,65 @@
+[
+  {
+    "ad": "6201 ZZ Sabit Bilyalı Rulman",
+    "kategori": "Bilyalı Rulmanlar",
+    "ic_cap": "12",
+    "dis_cap": "32",
+    "genislik": "10",
+    "fiyat": 45.50,
+    "stok": 150
+  },
+  {
+    "ad": "6202 2RS Bilyalı Rulman",
+    "kategori": "Bilyalı Rulmanlar",
+    "ic_cap": "15",
+    "dis_cap": "35",
+    "genislik": "11",
+    "fiyat": 52.00,
+    "stok": 200
+  },
+  {
+    "ad": "6303 ZZ Yüksek Devir Rulmanı",
+    "kategori": "Bilyalı Rulmanlar",
+    "ic_cap": "17",
+    "dis_cap": "47",
+    "genislik": "14",
+    "fiyat": 78.25,
+    "stok": 85
+  },
+  {
+    "ad": "SPA 1250 Endüstriyel V Kayış",
+    "kategori": "Kayışlar",
+    "ic_cap": "-",
+    "dis_cap": "-",
+    "genislik": "12.7",
+    "fiyat": 120.00,
+    "stok": 40
+  },
+  {
+    "ad": "XPA 1000 Dişli Dar V Kayış",
+    "kategori": "Kayışlar",
+    "ic_cap": "-",
+    "dis_cap": "-",
+    "genislik": "13",
+    "fiyat": 145.00,
+    "stok": 0
+  },
+  {
+    "ad": "30204 Konik Makaralı Rulman",
+    "kategori": "Makaralı Rulmanlar",
+    "ic_cap": "20",
+    "dis_cap": "47",
+    "genislik": "15.25",
+    "fiyat": 115.50,
+    "stok": 60
+  },
+  {
+    "ad": "UCFL 204 Döküm Yataklı Rulman",
+    "kategori": "Yataklı Rulmanlar",
+    "ic_cap": "20",
+    "dis_cap": "113",
+    "genislik": "33.3",
+    "fiyat": 195.00,
+    "stok": 30
+  }
+]
